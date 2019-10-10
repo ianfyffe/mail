@@ -29,7 +29,6 @@ declare(strict_types=1);
 
 namespace OCA\Mail\Model;
 
-use Closure;
 use Exception;
 use Horde_Imap_Client;
 use Horde_Imap_Client_Data_Envelope;
@@ -48,7 +47,6 @@ use OCA\Mail\Service\Html;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\File;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Util;
 use function mb_convert_encoding;
 
 class IMAPMessage implements IMessage, JsonSerializable {
@@ -412,6 +410,7 @@ class IMAPMessage implements IMessage, JsonSerializable {
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getUid(),
+			'messageId' => $this->getMessageId(),
 			'from' => $this->getFrom()->jsonSerialize(),
 			'to' => $this->getTo()->jsonSerialize(),
 			'cc' => $this->getCC()->jsonSerialize(),

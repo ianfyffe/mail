@@ -31,11 +31,16 @@ use Horde_Imap_Client_Fetch_Query;
 use Horde_Imap_Client_Ids;
 use Horde_Imap_Client_Socket;
 use Horde_Mime_Mail;
+use Horde_Mime_Part;
 use OCA\Mail\Db\Mailbox;
 use OCA\Mail\Exception\ServiceException;
 use OCA\Mail\Model\IMAPMessage;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\ILogger;
+use function base64_decode;
+use function iterator_to_array;
+use function stream_get_contents;
+use function strlen;
 
 class MessageMapper {
 
@@ -212,6 +217,131 @@ class MessageMapper {
 				'add' => [$flag],
 			]
 		);
+	}
+
+	public function getHtmlBody(Horde_Imap_Client_Socket $client,
+								string $mailbox,
+								int $id): ?string {
+		$messageQuery = new Horde_Imap_Client_Fetch_Query();
+		$messageQuery->envelope();
+		$messageQuery->structure();
+
+		$result = $client->fetch($mailbox, $messageQuery, [
+			'ids' => new Horde_Imap_Client_Ids([$id]),
+		]);
+
+		if (($message = $result->first()) === null) {
+			throw new DoesNotExistException('Message does not exist');
+		}
+
+		$structure = $message->getStructure();
+		$htmlPartId = $structure->findBody('html');
+		if ($htmlPartId === null) {
+			// No HTML part
+			return null;
+		}
+		$partsQuery = new Horde_Imap_Client_Fetch_Query();
+		$partsQuery->fullText();
+		foreach ($structure->partIterator() as $structurePart) {
+			/** @var Horde_Mime_Part $structurePart */
+			$partsQuery->bodyPart($structurePart->getMimeId(), [
+				'decode' => true,
+				'peek' => true,
+			]);
+			$partsQuery->bodyPartSize($structurePart->getMimeId());
+			if ($structurePart->getMimeId() === $htmlPartId) {
+				$partsQuery->mimeHeader($structurePart->getMimeId(), [
+					'peek' => true
+				]);
+			}
+
+		}
+
+		$parts = $client->fetch($mailbox, $partsQuery, [
+			'ids' => new Horde_Imap_Client_Ids([$id]),
+		]);
+
+		foreach ($parts as $part) {
+			/** @var Horde_Imap_Client_Data_Fetch $part */
+			$stream = $part->getBodyPart($htmlPartId, true);
+			$partData = $structure->getPart($htmlPartId);
+			$partData->setContents($stream, [
+				'usestream' => true,
+			]);
+
+			$body = $part->getBodyPart($htmlPartId);
+			if ($body !== null) {
+				$structurePart = $structure[$htmlPartId];
+				$mimeHeaders = $part->getMimeHeader($htmlPartId, Horde_Imap_Client_Data_Fetch::HEADER_PARSE);
+				if ($enc = $mimeHeaders->getValue('content-transfer-encoding')) {
+					$structure->setTransferEncoding($enc);
+				}
+				$structure->setContents($body);
+				$decoded = $structure->getContents();
+
+				return $decoded;
+			}
+		}
+
+		return null;
+	}
+
+	public function getRawAttachments(Horde_Imap_Client_Socket $client,
+									  string $mailbox,
+									  int $id): array {
+		$messageQuery = new Horde_Imap_Client_Fetch_Query();
+		$messageQuery->structure();
+
+		$result = $client->fetch($mailbox, $messageQuery, [
+			'ids' => new Horde_Imap_Client_Ids([$id]),
+		]);
+
+		if (($structureResult = $result->first()) === null) {
+			throw new DoesNotExistException('Message does not exist');
+		}
+
+		$structure = $structureResult->getStructure();
+		$partsQuery = new Horde_Imap_Client_Fetch_Query();
+		$partsQuery->fullText();
+		foreach ($structure->partIterator() as $part) {
+			/** @var Horde_Mime_Part $part */
+			$partsQuery->bodyPart($part->getMimeId(), [
+				'decode' => true,
+				'peek' => true,
+			]);
+			$partsQuery->bodyPartSize($part->getMimeId());
+		}
+
+		$parts = $client->fetch($mailbox, $partsQuery, [
+			'ids' => new Horde_Imap_Client_Ids([$id]),
+		]);
+		if (($messageData = $parts->first()) === null) {
+			throw new DoesNotExistException('Message does not exist');
+		}
+
+		$attachments = [];
+		foreach ($structure->partIterator() as $key => $part) {
+			/** @var Horde_Mime_Part $part */
+
+			if (!$part->isAttachment()) {
+				continue;
+			}
+
+			$stream = $messageData->getBodyPart($key, true);
+			$mimeHeaders = $messageData->getMimeHeader($key, Horde_Imap_Client_Data_Fetch::HEADER_PARSE);
+			if ($enc = $mimeHeaders->getValue('content-transfer-encoding')) {
+				$part->setTransferEncoding($enc);
+			}
+			// TODO: fix
+			//$part->setContents($stream, [
+			//	'usestream' => true,
+			//]);
+			//$decoded = $structure->getContents();
+			$decoded = base64_decode(stream_get_contents($stream));
+
+			$attachments[] = $decoded;
+		}
+		return $attachments;
 	}
 
 }

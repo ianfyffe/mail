@@ -16,6 +16,14 @@
 		}
 	},
 	"require": {
+		"arthurhoaro/favicon": "^1.2",
+		"cerdic/css-tidy": "v1.7.1",
+		"christophwurst/kitinerary": "0.1.0",
+		"christophwurst/kitinerary-bin": "0.1.4",
+		"christophwurst/kitinerary-flatpak": "0.1.2",
+		"ezyang/htmlpurifier": "4.12.0",
+		"gravatarphp/gravatar": "^2.0",
+		"kwi/urllinker": "dev-bleeding",
 		"php": ">=7.1",
 		"pear-pear.horde.org/horde_date": "^2.4.1@stable",
 		"pear-pear.horde.org/horde_exception": "^2.0.8@stable",
@@ -28,14 +36,10 @@
 		"pear-pear.horde.org/horde_text_filter": "^2.3.5@stable",
 		"pear-pear.horde.org/horde_text_flowed": "^2.0.3@stable",
 		"pear-pear.horde.org/horde_util": "^2.5.8@stable",
-		"pear-pear.horde.org/horde_smtp": "^1.9.5@stable",
-		"cerdic/css-tidy": "v1.7.1",
-		"ezyang/htmlpurifier": "4.12.0",
-		"kwi/urllinker": "dev-bleeding",
-		"gravatarphp/gravatar": "^2.0",
-		"arthurhoaro/favicon": "^1.2"
+		"pear-pear.horde.org/horde_smtp": "^1.9.5@stable"
 	},
 	"require-dev": {
+		"roave/security-advisories": "dev-master",
 		"christophwurst/nextcloud": "v17.0.0-beta3",
 		"christophwurst/nextcloud_testing": "0.7.0",
 		"phan/phan": "^2.0"

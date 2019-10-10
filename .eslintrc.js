@@ -31,6 +31,7 @@ module.exports = {
 		expect: true,
 		OC: true,
 		OCA: true,
+		OCP: true,
 		t: true,
 		__webpack_public_path__: true,
 		__webpack_nonce__: true,
