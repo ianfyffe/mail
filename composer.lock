@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84dbeda319d5b25fba259ebc0c11fe95",
+    "content-hash": "841d4926d3ea675a8146f50063f83771",
     "packages": [
         {
             "name": "arthurhoaro/favicon",
@@ -139,16 +139,16 @@
         },
         {
             "name": "christophwurst/kitinerary-bin",
-            "version": "0.1.4",
+            "version": "0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/kitinerary-bin.git",
-                "reference": "a69f09c9aa994bf3fcaa1e2a92e02cf91c773fac"
+                "reference": "ce50957a772167ee5cbf4438e3a82478ec73507c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/kitinerary-bin/zipball/a69f09c9aa994bf3fcaa1e2a92e02cf91c773fac",
-                "reference": "a69f09c9aa994bf3fcaa1e2a92e02cf91c773fac",
+                "url": "https://api.github.com/repos/ChristophWurst/kitinerary-bin/zipball/ce50957a772167ee5cbf4438e3a82478ec73507c",
+                "reference": "ce50957a772167ee5cbf4438e3a82478ec73507c",
                 "shasum": ""
             },
             "require": {
@@ -173,7 +173,7 @@
                 }
             ],
             "description": "KItinerary binary executable",
-            "time": "2019-11-22T08:58:59+00:00"
+            "time": "2019-11-25T08:29:51+00:00"
         },
         {
             "name": "christophwurst/kitinerary-flatpak",
