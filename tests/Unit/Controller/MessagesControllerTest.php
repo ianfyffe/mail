@@ -107,7 +107,7 @@ class MessagesControllerTest extends TestCase {
 	/** @var ITimeFactory */
 	private $oldFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->appName = 'mail';
@@ -154,7 +154,7 @@ class MessagesControllerTest extends TestCase {
 		$this->attachment = $this->createMock(Attachment::class);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		parent::tearDown();
 
 		\OC::$server->offsetUnset(ITimeFactory::class);
