@@ -29,6 +29,7 @@ use ChristophWurst\KItinerary\Flatpak\FlatpakAdapter;
 use ChristophWurst\KItinerary\Itinerary;
 use ChristophWurst\KItinerary\ItineraryExtractor as Extractor;
 use ChristophWurst\KItinerary\Bin\BinaryAdapter;
+use OCA\Mail\Integration\Psr\LoggerAdapter;
 use OCP\ILogger;
 
 class ItineraryExtractor {
@@ -55,6 +56,7 @@ class ItineraryExtractor {
 
 	private function findAvailableAdapter(): ?Adapter {
 		if ($this->binAdapter->isAvailable()) {
+			$this->binAdapter->setLogger(new LoggerAdapter($this->logger));
 			return $this->binAdapter;
 		}
 		if ($this->flatpakAdapter->isAvailable()) {

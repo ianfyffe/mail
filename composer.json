@@ -19,7 +19,7 @@
 		"arthurhoaro/favicon": "^1.2",
 		"cerdic/css-tidy": "v1.7.1",
 		"christophwurst/kitinerary": "0.1.0",
-		"christophwurst/kitinerary-bin": "0.1.5",
+		"christophwurst/kitinerary-bin": "0.1.6",
 		"christophwurst/kitinerary-flatpak": "0.1.2",
 		"ezyang/htmlpurifier": "4.12.0",
 		"gravatarphp/gravatar": "^2.0",
@@ -36,7 +36,8 @@
 		"pear-pear.horde.org/horde_text_filter": "^2.3.5@stable",
 		"pear-pear.horde.org/horde_text_flowed": "^2.0.3@stable",
 		"pear-pear.horde.org/horde_util": "^2.5.8@stable",
-		"pear-pear.horde.org/horde_smtp": "^1.9.5@stable"
+		"pear-pear.horde.org/horde_smtp": "^1.9.5@stable",
+		"psr/log": "^1"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",

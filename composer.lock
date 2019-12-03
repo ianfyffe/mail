@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "841d4926d3ea675a8146f50063f83771",
+    "content-hash": "3632a1bfe83c6b9179883f87788f399b",
     "packages": [
         {
             "name": "arthurhoaro/favicon",
@@ -139,22 +139,23 @@
         },
         {
             "name": "christophwurst/kitinerary-bin",
-            "version": "0.1.5",
+            "version": "0.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/kitinerary-bin.git",
-                "reference": "ce50957a772167ee5cbf4438e3a82478ec73507c"
+                "reference": "3ed704a2ad501be248bb42a1b1283c5c7fc831f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/kitinerary-bin/zipball/ce50957a772167ee5cbf4438e3a82478ec73507c",
-                "reference": "ce50957a772167ee5cbf4438e3a82478ec73507c",
+                "url": "https://api.github.com/repos/ChristophWurst/kitinerary-bin/zipball/3ed704a2ad501be248bb42a1b1283c5c7fc831f9",
+                "reference": "3ed704a2ad501be248bb42a1b1283c5c7fc831f9",
                 "shasum": ""
             },
             "require": {
                 "christophwurst/kitinerary": "^0.1.0",
                 "ext-json": "*",
-                "php": "^7.1"
+                "php": "^7.1",
+                "psr/log": "^1.1"
             },
             "type": "library",
             "autoload": {
@@ -173,7 +174,7 @@
                 }
             ],
             "description": "KItinerary binary executable",
-            "time": "2019-11-25T08:29:51+00:00"
+            "time": "2019-12-03T08:40:34+00:00"
         },
         {
             "name": "christophwurst/kitinerary-flatpak",
@@ -963,6 +964,53 @@
                 "LGPL-2.1"
             ],
             "description": "A library that provides functionality useful for all kind of applications."
+        },
+        {
+            "name": "psr/log",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
+                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2019-11-01T11:05:21+00:00"
         }
     ],
     "packages-dev": [
@@ -2162,53 +2210,6 @@
                 "xunit"
             ],
             "time": "2019-10-28T10:37:36+00:00"
-        },
-        {
-            "name": "psr/log",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
-            "keywords": [
-                "log",
-                "psr",
-                "psr-3"
-            ],
-            "time": "2019-11-01T11:05:21+00:00"
         },
         {
             "name": "roave/security-advisories",
