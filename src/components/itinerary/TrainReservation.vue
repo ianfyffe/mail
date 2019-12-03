@@ -6,9 +6,9 @@
 			<div v-if="departureTime">{{ departureTime }}</div>
 		</div>
 		<div class="connection">
-			<div>🚆</div>
+			<div><TrainIcon :title="t('mail', 'Tain')"/></div>
 			<div>{{ trainNumber }}</div>
-			<div>→</div>
+			<div><ArrowIcon decorative/></div>
 		</div>
 		<div class="arrival">
 			<div class="station">{{ data.reservationFor.arrivalStation.name }}</div>
@@ -20,9 +20,11 @@
 </template>
 
 <script>
+import ArrowIcon from 'vue-material-design-icons/ArrowRight'
 import ical from 'ical.js'
 import md5 from 'md5'
 import moment from '@nextcloud/moment'
+import TrainIcon from 'vue-material-design-icons/Train'
 
 import CalendarImport from './CalendarImport'
 import {importCalendarEvent} from '../../service/DAVService'
@@ -30,7 +32,11 @@ import logger from '../../logger'
 
 export default {
 	name: 'TrainReservation',
-	components: {CalendarImport},
+	components: {
+		ArrowIcon,
+		CalendarImport,
+		TrainIcon,
+	},
 	props: {
 		data: {
 			type: Object,

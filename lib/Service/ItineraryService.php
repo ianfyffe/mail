@@ -54,7 +54,7 @@ class ItineraryService {
 
 	public function extract(Account $account, string $mailbox, int $id): Itinerary {
 		$cacheKey = 'mail_itinerary_' . $account->getId() . '_' . $mailbox . '_' . $id;
-		if (false && $cached = ($this->cache->get($cacheKey))) {
+		if ($cached = ($this->cache->get($cacheKey))) {
 			return Itinerary::fromJson($cached);
 		}
 
