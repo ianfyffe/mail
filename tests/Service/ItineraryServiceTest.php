@@ -52,7 +52,7 @@ class ItineraryServiceTest extends TestCase {
 	/** @var ItineraryService */
 	private $service;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->imapClientFactory = $this->createMock(IMAPClientFactory::class);

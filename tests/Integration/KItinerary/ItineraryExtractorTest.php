@@ -44,7 +44,7 @@ class ItineraryExtractorTest extends TestCase {
 	/** @var ItineraryExtractor */
 	private $extractor;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->binaryAdapter = $this->createMock(BinaryAdapter::class);
