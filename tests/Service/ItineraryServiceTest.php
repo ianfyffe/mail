@@ -32,6 +32,7 @@ use OCA\Mail\IMAP\MessageMapper;
 use OCA\Mail\Integration\KItinerary\ItineraryExtractor;
 use OCA\Mail\Service\ItineraryService;
 use OCP\ICacheFactory;
+use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ItineraryServiceTest extends TestCase {
@@ -63,7 +64,8 @@ class ItineraryServiceTest extends TestCase {
 			$this->imapClientFactory,
 			$this->messageMapper,
 			$this->itineraryExtractor,
-			$this->cacheFactor
+			$this->cacheFactor,
+			$this->createMock(ILogger::class)
 		);
 	}
 

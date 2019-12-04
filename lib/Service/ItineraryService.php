@@ -29,6 +29,9 @@ use OCA\Mail\IMAP\IMAPClientFactory;
 use OCA\Mail\IMAP\MessageMapper;
 use OCA\Mail\Integration\KItinerary\ItineraryExtractor;
 use OCP\ICacheFactory;
+use OCP\ILogger;
+use function array_reduce;
+use function count;
 use function json_encode;
 
 class ItineraryService {
@@ -42,14 +45,19 @@ class ItineraryService {
 	/** @var ItineraryExtractor */
 	private $extractor;
 
+	/** @var ILogger */
+	private $logger;
+
 	public function __construct(IMAPClientFactory $clientFactory,
 								MessageMapper $messageMapper,
 								ItineraryExtractor $extractor,
-								ICacheFactory $cacheFactory) {
+								ICacheFactory $cacheFactory,
+								ILogger $logger) {
 		$this->clientFactory = $clientFactory;
 		$this->messageMapper = $messageMapper;
 		$this->extractor = $extractor;
 		$this->cache = $cacheFactory->createLocal();
+		$this->logger = $logger;
 	}
 
 	public function extract(Account $account, string $mailbox, int $id): Itinerary {
@@ -66,17 +74,21 @@ class ItineraryService {
 			$itinerary = $itinerary->merge(
 				$this->extractor->extract($htmlBody)
 			);
+			$this->logger->debug('Extracted ' . count($itinerary) . ' itinerary entries from the message HTML body');
+		} else {
+			$this->logger->debug('Message does not have an HTML body, can\'t extract itinerary info');
 		}
 		$attachments = $this->messageMapper->getRawAttachments($client, $mailbox, $id);
-		foreach ($attachments as $attachment) {
-			$itinerary = $itinerary->merge(
-				$this->extractor->extract($attachment)
-			);
-		}
+		$itinerary = array_reduce($attachments, function(Itinerary $combined, string $attachment) {
+			$extracted = $this->extractor->extract($attachment);
+			$this->logger->debug('Extracted ' . count($extracted) . ' itinerary entries from an attachment');
+			return $combined->merge($extracted);
+		}, $itinerary);
 
 		// Lastly, we put the extracted data through the tool again, so it can combine
 		// and pick the most relevant information
 		$final = $this->extractor->extract(json_encode($itinerary));
+		$this->logger->debug('Reduced ' . count($itinerary) . ' itinerary entries to ' . count($final) . ' entries');
 
 		$this->cache->set($cacheKey, json_encode($final));
 
