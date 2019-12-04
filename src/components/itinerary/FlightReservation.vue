@@ -7,10 +7,10 @@
 			<div v-if="departureTime">{{ departureTime }}</div>
 		</div>
 		<div class="connection">
-			<div><AirplaneIcon :title="t('mail', 'Airplane')"/></div>
+			<div><AirplaneIcon :title="t('mail', 'Airplane')" /></div>
 			<div>{{ flightNumber }}</div>
 			<div v-if="reservation">{{ t('mail', 'Reservation {id}', {id: reservation}) }}</div>
-			<div v-else><ArrowIcon decorative/></div>
+			<div v-else><ArrowIcon decorative /></div>
 		</div>
 		<div class="arrival">
 			<div class="iata">{{ data.reservationFor.arrivalAirport.iataCode }}</div>

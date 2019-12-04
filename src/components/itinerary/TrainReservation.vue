@@ -6,9 +6,9 @@
 			<div v-if="departureTime">{{ departureTime }}</div>
 		</div>
 		<div class="connection">
-			<div><TrainIcon :title="t('mail', 'Tain')"/></div>
+			<div><TrainIcon :title="t('mail', 'Tain')" /></div>
 			<div>{{ trainNumber }}</div>
-			<div><ArrowIcon decorative/></div>
+			<div><ArrowIcon decorative /></div>
 		</div>
 		<div class="arrival">
 			<div class="station">{{ data.reservationFor.arrivalStation.name }}</div>
