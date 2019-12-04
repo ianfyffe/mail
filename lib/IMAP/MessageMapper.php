@@ -37,10 +37,7 @@ use OCA\Mail\Exception\ServiceException;
 use OCA\Mail\Model\IMAPMessage;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\ILogger;
-use function base64_decode;
 use function iterator_to_array;
-use function stream_get_contents;
-use function strlen;
 
 class MessageMapper {
 
@@ -305,9 +302,16 @@ class MessageMapper {
 		$partsQuery->fullText();
 		foreach ($structure->partIterator() as $part) {
 			/** @var Horde_Mime_Part $part */
+			if ($part->getMimeId() === "0") {
+				// Ignore message header
+				continue;
+			}
+
 			$partsQuery->bodyPart($part->getMimeId(), [
-				'decode' => true,
 				'peek' => true,
+			]);
+			$partsQuery->mimeHeader($part->getMimeId(), [
+				'peek' => true
 			]);
 			$partsQuery->bodyPartSize($part->getMimeId());
 		}
@@ -332,12 +336,10 @@ class MessageMapper {
 			if ($enc = $mimeHeaders->getValue('content-transfer-encoding')) {
 				$part->setTransferEncoding($enc);
 			}
-			// TODO: fix
-			//$part->setContents($stream, [
-			//	'usestream' => true,
-			//]);
-			//$decoded = $structure->getContents();
-			$decoded = base64_decode(stream_get_contents($stream));
+			$part->setContents($stream, [
+				'usestream' => true,
+			]);
+			$decoded = $part->getContents();
 
 			$attachments[] = $decoded;
 		}
