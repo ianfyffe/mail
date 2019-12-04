@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -19,9 +19,10 @@
  *
  */
 
-namespace OCA\Mail\Db;
+namespace OCA\Mail\Tests\Integration\Db;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCA\Mail\Db\MailAccount;
 
 class MailAccountTest extends TestCase {
 
@@ -42,6 +43,7 @@ class MailAccountTest extends TestCase {
 		$a->setOutboundPassword('xxxx');
 		$a->setOutboundSslMode('ssl');
 		$a->setEditorMode('html');
+		$a->setProvisioned(false);
 
 		$this->assertEquals(array(
 			'accountId' => 12345,
@@ -57,6 +59,7 @@ class MailAccountTest extends TestCase {
 			'smtpSslMode' => 'ssl',
 			'signature' => null,
 			'editorMode' => 'html',
+			'provisioned' => false,
 			), $a->toJson());
 	}
 
@@ -75,6 +78,7 @@ class MailAccountTest extends TestCase {
 			'smtpSslMode' => 'ssl',
 			'signature' => null,
 			'editorMode' => null,
+			'provisioned' => false,
 		];
 		$a = new MailAccount($expected);
 		// TODO: fix inconsistency
