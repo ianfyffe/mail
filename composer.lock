@@ -884,17 +884,17 @@
         },
         {
             "name": "pear-pear.horde.org/Horde_Text_Flowed",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "dist": {
                 "type": "file",
-                "url": "https://pear.horde.org/get/Horde_Text_Flowed-2.0.3.tgz"
+                "url": "https://pear.horde.org/get/Horde_Text_Flowed-2.0.4.tgz"
             },
             "require": {
                 "pear-pear.horde.org/horde_util": "<3.0.0.0",
                 "php": "<8.0.0.0"
             },
             "replace": {
-                "pear-horde/horde_text_flowed": "== 2.0.3.0"
+                "pear-horde/horde_text_flowed": "== 2.0.4.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -908,7 +908,7 @@
             "license": [
                 "LGPL-2.1"
             ],
-            "description": "The Horde_Text_Flowed:: class provides common methods for manipulating text using the encoding described in RFC 3676 ('flowed' text)."
+            "description": "A library that provides common methods for manipulating text using the encoding described in RFC 3676 ('flowed' text)."
         },
         {
             "name": "pear-pear.horde.org/Horde_Translation",
@@ -1396,16 +1396,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.9.3",
+            "version": "1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea"
+                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/007c053ae6f31bba39dfa19a7726f56e9763bbea",
-                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/579bb7356d91f9456ccd505f24ca8b667966a0a7",
+                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7",
                 "shasum": ""
             },
             "require": {
@@ -1440,7 +1440,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2019-08-09T12:45:53+00:00"
+            "time": "2019-12-15T19:12:40+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
@@ -1490,16 +1490,16 @@
         },
         {
             "name": "phan/phan",
-            "version": "2.4.4",
+            "version": "2.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phan/phan.git",
-                "reference": "9236f30e5b6ccb582ebc77b1635eabe08bdecf9e"
+                "reference": "12f64e878084244ca92d1ac83e58a668640f6f1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phan/phan/zipball/9236f30e5b6ccb582ebc77b1635eabe08bdecf9e",
-                "reference": "9236f30e5b6ccb582ebc77b1635eabe08bdecf9e",
+                "url": "https://api.github.com/repos/phan/phan/zipball/12f64e878084244ca92d1ac83e58a668640f6f1d",
+                "reference": "12f64e878084244ca92d1ac83e58a668640f6f1d",
                 "shasum": ""
             },
             "require": {
@@ -1513,7 +1513,7 @@
                 "netresearch/jsonmapper": "^1.6.0",
                 "php": "^7.1.0",
                 "sabre/event": "^5.0",
-                "symfony/console": "^2.3|^3.0|~4.0",
+                "symfony/console": "^2.3|^3.0|^4.0|^5.0",
                 "symfony/polyfill-mbstring": "^1.11.0"
             },
             "require-dev": {
@@ -1559,7 +1559,7 @@
                 "php",
                 "static"
             ],
-            "time": "2019-11-24T16:38:38+00:00"
+            "time": "2019-12-11T01:03:28+00:00"
         },
         {
             "name": "phar-io/manifest",
