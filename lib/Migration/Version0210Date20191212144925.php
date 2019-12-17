@@ -25,36 +25,31 @@ declare(strict_types=1);
 
 namespace OCA\Mail\Migration;
 
-use OCA\Mail\Service\Provisioning\Manager as ProvisioningManager;
+use Closure;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+use OCP\Migration\SimpleMigrationStep;
 
-class ProvisionAccounts implements IRepairStep {
+class Version0210Date20191212144925 extends SimpleMigrationStep {
 
-	/** @var ProvisioningManager */
-	private $provisioningManager;
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 * @return ISchemaWrapper
+	 */
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
 
-	public function __construct(ProvisioningManager $provisioningManager) {
-		$this->provisioningManager = $provisioningManager;
-	}
+		$accountsTable = $schema->getTable('mail_accounts');
+		$accountsTable->addColumn('order', 'integer', [
+			'notnull' => true,
+			'length' => 4,
+			'default' => 1,
+		]);
 
-	public function getName(): string {
-		return 'Create or update provisioned Mail accounts';
-	}
-
-	public function run(IOutput $output) {
-		$config = $this->provisioningManager->getConfig();
-		if ($config === null) {
-			$output->info("No Mail provisioning config set");
-			return;
-		}
-		if (!$config->isActive()) {
-			$output->info("Mail provisioning is disabled");
-			return;
-		}
-
-		$cnt = $this->provisioningManager->provision($config);
-		$output->info("$cnt accounts provisioned");
+		return $schema;
 	}
 
 }
