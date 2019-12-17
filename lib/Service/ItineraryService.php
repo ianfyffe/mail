@@ -25,6 +25,7 @@ namespace OCA\Mail\Service;
 
 use ChristophWurst\KItinerary\Itinerary;
 use OCA\Mail\Account;
+use OCA\Mail\Db\MailboxMapper;
 use OCA\Mail\IMAP\IMAPClientFactory;
 use OCA\Mail\IMAP\MessageMapper;
 use OCA\Mail\Integration\KItinerary\ItineraryExtractor;
@@ -39,6 +40,9 @@ class ItineraryService {
 	/** @var IMAPClientFactory */
 	private $clientFactory;
 
+	/** @var MailboxMapper */
+	private $mailboxMapper;
+
 	/** @var MessageMapper */
 	private $messageMapper;
 
@@ -49,11 +53,13 @@ class ItineraryService {
 	private $logger;
 
 	public function __construct(IMAPClientFactory $clientFactory,
+								MailboxMapper $mailboxMapper,
 								MessageMapper $messageMapper,
 								ItineraryExtractor $extractor,
 								ICacheFactory $cacheFactory,
 								ILogger $logger) {
 		$this->clientFactory = $clientFactory;
+		$this->mailboxMapper = $mailboxMapper;
 		$this->messageMapper = $messageMapper;
 		$this->extractor = $extractor;
 		$this->cache = $cacheFactory->createLocal();
@@ -61,7 +67,9 @@ class ItineraryService {
 	}
 
 	public function extract(Account $account, string $mailbox, int $id): Itinerary {
-		$cacheKey = 'mail_itinerary_' . $account->getId() . '_' . $mailbox . '_' . $id;
+		$mailbox = $this->mailboxMapper->find($account, $mailbox);
+
+		$cacheKey = 'mail_itinerary_' . $account->getId() . '_' . $mailbox->getMailbox() . '_' . $id;
 		if ($cached = ($this->cache->get($cacheKey))) {
 			return Itinerary::fromJson($cached);
 		}
@@ -69,7 +77,7 @@ class ItineraryService {
 		$client = $this->clientFactory->getClient($account);
 
 		$itinerary = new Itinerary();
-		$htmlBody = $this->messageMapper->getHtmlBody($client, $mailbox, $id);
+		$htmlBody = $this->messageMapper->getHtmlBody($client, $mailbox->getMailbox(), $id);
 		if ($htmlBody !== null) {
 			$itinerary = $itinerary->merge(
 				$this->extractor->extract($htmlBody)
@@ -78,7 +86,7 @@ class ItineraryService {
 		} else {
 			$this->logger->debug('Message does not have an HTML body, can\'t extract itinerary info');
 		}
-		$attachments = $this->messageMapper->getRawAttachments($client, $mailbox, $id);
+		$attachments = $this->messageMapper->getRawAttachments($client, $mailbox->getMailbox(), $id);
 		$itinerary = array_reduce($attachments, function(Itinerary $combined, string $attachment) {
 			$extracted = $this->extractor->extract($attachment);
 			$this->logger->debug('Extracted ' . count($extracted) . ' itinerary entries from an attachment');
