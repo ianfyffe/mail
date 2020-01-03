@@ -36,6 +36,7 @@ class IspDb {
 	/** @var string[] */
 	public function getUrls(): array {
 		return [
+                        'http://autoconfig.{DOMAIN}/mail/config-v1.1.xml?emailaddress={EMAILADDRESS}',
 			'https://autoconfig.{DOMAIN}/mail/config-v1.1.xml',
 			'https://{DOMAIN}/.well-known/autoconfig/mail/config-v1.1.xml',
 			'https://autoconfig.thunderbird.net/v1.1/{DOMAIN}',
@@ -99,20 +100,18 @@ class IspDb {
 	}
 
 	/**
-	 * @param string $domain
+	 * @param string $email
 	 * @param bool $tryMx
 	 * @return array
 	 */
-	public function query(string $domain, bool $tryMx = true): array {
+	public function query(string $email, bool $tryMx = true): array {
+                // TODO: use horde mail address parsing instead
+                list(, $domain) = explode('@', $email);
 		$this->logger->debug("IsbDb: querying <$domain>");
-		if (strpos($domain, '@') !== false) {
-			// TODO: use horde mail address parsing instead
-			list(, $domain) = explode('@', $domain);
-		}
-
 		$provider = [];
 		foreach ($this->getUrls() as $url) {
 			$url = str_replace("{DOMAIN}", $domain, $url);
+			$url = str_replace("{EMAILADDRESS}", $email, $url);
 			$this->logger->debug("IsbDb: querying <$domain> via <$url>");
 
 			$provider = $this->queryUrl($url);

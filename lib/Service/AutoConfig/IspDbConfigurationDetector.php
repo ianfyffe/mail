@@ -87,11 +87,8 @@ class IspDbConfigurationDetector {
 	 * @return MailAccount|null
 	 */
 	public function detectImapAndSmtp(string $email, string $password, string $name) {
-		// splitting the email address into user and host part
-		// TODO: use horde libs for email address parsing
-		list(, $host) = explode("@", $email);
 
-		$ispdb = $this->ispDb->query($host);
+		$ispdb = $this->ispDb->query($email);
 
 		if (empty($ispdb)) {
 			// Nothing to detect
@@ -158,8 +155,7 @@ class IspDbConfigurationDetector {
 		} elseif ($imap['username'] === '%EMAILLOCALPART%') {
 			list($user,) = explode("@", $email);
 		} else {
-			$this->logger->info("Unknown username variable: " . $imap['username']);
-			return null;
+			$user = $imap['username'];
 		}
 
 		try {
@@ -209,8 +205,7 @@ class IspDbConfigurationDetector {
 			} elseif ($smtp['username'] === '%EMAILLOCALPART%') {
 				list($user,) = explode("@", $email);
 			} else {
-				$this->logger->info("Unknown username variable: " . $smtp['username']);
-				return null;
+				$user = $smtp['username'];
 			}
 
 			$account->setOutboundHost($smtp['hostname']);
